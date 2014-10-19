@@ -36,8 +36,8 @@ def fix(dir='.', check=1, recur=1, chk=1):
 	
 	for f in list:
 		if os.path.isdir(f):
-			a = raw_input(f + ' recurse? ')
 			if dirchk and (a == 'y' or a == 'yes' or a == ''):
+				a = raw_input(f + ' recurse? ')
 				fix(f, userconfirm, recurse, dirchk)
 				os.chdir('../')
 			continue
