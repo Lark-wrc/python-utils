@@ -15,7 +15,8 @@ for x in os.listdir('.'):
 
 for f in files:
 	matches = []
-	s = f.split()
+
+	s = f[0:-4].split()
 	for x in folders:
 		matchtick = 0
 		z = x.lower().split()
@@ -29,5 +30,8 @@ for f in files:
 	mostmatched = max(matches)
 	if mostmatched > 1:
 		index = matches.index(mostmatched)
+		print f, ' to ', folders[index]
 		os.rename(f, folders[index]+"/"+f)
 
+print 'Mission Complete~'
+print 'Sayonara~'
