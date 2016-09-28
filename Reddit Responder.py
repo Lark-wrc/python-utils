@@ -10,6 +10,7 @@ recenttime = 0
 def checkAndGet():
     global recenturl
     global recenttime
+    global oldrecenturl
     grab = 0
     store = 1
     updates = 0
@@ -22,7 +23,7 @@ def checkAndGet():
         print "Too many Requests error, holding."
         f.close()
         time.sleep(3)
-        return checkAndGet(recenturl, recenttime)
+        return checkAndGet()
     f.seek(0,0)
 
 
@@ -88,7 +89,7 @@ def display(url, updates):
 def notify(result):
     if result[1] > 0:
         send_email('pawkun14', 'wheretheresawilltheresaway', 'willowlark@outlook.com',
-                'Reddit Updater', 'There are %s updates at \n %s!' % (result[1], result[0]))
+                'Reddit Updater', 'There are %s updates at \n %s!' % (result[1], oldrecenturl))
 
 
 def loop(thread):
