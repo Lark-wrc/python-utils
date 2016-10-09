@@ -27,6 +27,7 @@ def checkAndGet():
     f.seek(0,0)
 
 
+    # <div class="md"><p>.*</p> # message text.
     for line in f:
         if grab:
             if store:
@@ -34,20 +35,26 @@ def checkAndGet():
                 store = 0
 
             post_url = re.search("""a href="(.*?)" """, line)
-            if post_url is not None and re.search("""reddit.com/r/""", post_url.string):
+            if post_url and re.search("""reddit.com/r/""", post_url.string):
                 grab = 0
                 post_url = post_url.group(1)
                 # print post_url
                 recenturl = post_url
 
         post_string = re.search("""<time title="(.*?)" """, line)
-        if post_string is not None:
+        if post_string:
             post_time = post_string.group(1)
             # print post_time
             raw_time = time.mktime(time.strptime(post_time, "%a %b %d %X %Y %Z"))
-            if raw_time > recenttime:
-                grab = 1
-                updates+=1
+
+            content_string = re.search("""<div class="md"><p>(.*)</p>""", line)
+            if content_string:
+                # print content_string.group(1)
+                comment = content_string.group(1)[0] == '(' and content_string.group(1)[-1] == ')'
+
+            if raw_time > recenttime and not comment:
+                grab = 1 # Take the url of this comment on the next line of the html (weird formatting)
+                updates += 1
                 recenttime = raw_time
     return recenturl, updates
 
