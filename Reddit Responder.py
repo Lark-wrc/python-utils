@@ -3,17 +3,19 @@ import time
 import urllib
 import sys
 
-recenturl = ""
-oldrecenturl = ""
+topurl = ""
+storedtopurl = ""
 recenttime = 0
+recenturl = ""
 
 def checkAndGet():
     global recenturl
     global recenttime
-    global oldrecenturl
+    global storedtopurl
     grab = 0
     store = 1
     updates = 0
+    contin = 1
 
     urllib.urlretrieve(recenturl, "test.html")
     f = open("test.html", 'r')
@@ -30,16 +32,18 @@ def checkAndGet():
     # <div class="md"><p>.*</p> # message text.
     for line in f:
         if grab:
-            if store:
-                oldrecenturl = recenturl
-                store = 0
-
             post_url = re.search("""a href="(.*?)" """, line)
             if post_url and re.search("""reddit.com/r/""", post_url.string):
                 grab = 0
                 post_url = post_url.group(1)
                 # print post_url
                 recenturl = post_url
+                # if contin:
+                    # storedtopurl = topurl
+                    # topurl = recenturl
+
+        # if re.search("""continue this thread""", line):
+        #     contin = 1
 
         post_string = re.search("""<time title="(.*?)" """, line)
         if post_string:
@@ -50,7 +54,7 @@ def checkAndGet():
             content_string = re.search("""<div class="md"><p>(.*)</p>""", line)
             if content_string:
                 # print content_string.group(1)
-                comment = content_string.group(1)[0] == '(' and content_string.group(1)[-1] == ')'
+                comment = content_string.group(1)[0] == '(' #and content_string.group(1)[-1] == ')'
 
             if raw_time > recenttime and not comment:
                 grab = 1 # Take the url of this comment on the next line of the html (weird formatting)
@@ -96,7 +100,7 @@ def display(url, updates):
 def notify(result):
     if result[1] > 0:
         send_email('pawkun14', 'wheretheresawilltheresaway', 'willowlark@outlook.com',
-                'Reddit Updater', 'There are %s updates at \n %s!' % (result[1], oldrecenturl))
+                'Reddit Updater', 'There are %s updates at \n %s!' % (result[1], storedtopurl))
 
 
 def loop(thread):
@@ -106,10 +110,17 @@ def loop(thread):
         result = checkAndGet()
         display(*result)
         notify(result)
+        # if result[1] == 0:
+        #     print 'Trying for updates on Stored Url.'
+        #     storedrecent = topurl
+        #     result = checkAndGet()
+        #     display(*result)
+        #     notify(result)
         time.sleep(60*5)
 
 if __name__ == "__main__":
-    # result = checkAndGet(recenturl, recenttime)
+    # recenturl = "https://www.reddit.com/r/digimonrp/comments/53mvsy/episode_5_lets_find_leomon/d8m8u40"
+    # result = checkAndGet()
     # display(*result)
     # send_email('pawkun14', 'wheretheresawilltheresaway', 'willowlark@outlook.com',
     #         'Reddit Updater', 'There are %s updates at \n %s!' % (result[1], result[0]))
