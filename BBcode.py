@@ -11,6 +11,7 @@ else: text = None
 print "Content-type:text/html"
 print ""
 print """
+<head><link rel="shortcut icon" href="BBfavi.jpg" /></head>
 <body style="background-color:black;">
 <div style="margin: auto; width: 60%;text-align:center">
 <h1 style="color:white;">BBcode from Custom Markdown<h1>
