@@ -13,6 +13,7 @@ print ""
 print """
 <body style="background-color:black;">
 <div style="margin: auto; width: 60%;text-align:center">
+<h1 style="color:white;">BBcode from Custom Markdown<h1>
 
 <textarea wrap="hard" form="input" name="text" rows="15" cols="80"
 placeholder="Template:
@@ -20,7 +21,9 @@ placeholder="Template:
 _underlined text_
 ^italic text^
 *^_this can be combined, though keep them in order_^*
-#sPrints Sona's text color.# <- note that it's only a single # to close!
+\c centers \c <- note that the \\c should be on it's own!
+- on it's own line prints a [hr] tag
+#sPrints Sona's text color.# <- note that it's only a single \# to close!
 #cPrints Sherwood,# #aPrints ASPN,# #vPrints VLPS,# and #wPrints white#
     indents with tabs
         are
@@ -38,25 +41,19 @@ _underlined text_
 
 </div>
 
-<br />
-
 <div style="background-color:lightgrey;margin: auto; width: 50%;text-align:center;">
 <a href="bbify.txt">Text file source</a><pre>"""
 
 
-lines = text.split("\r\n")
-print lines
-shorthand_bb.convert(lines)
-print """<iframe src="bbify.txt" width="400px" height="500px">
-    </iframe>"""
+if text:
+    lines = text.split("\r\n")
+    #print lines
+    try:
+        exit = shorthand_bb.convert(lines)
+        if exit == 0: print """<iframe src="bbify.txt" width="400px" height="470px"></iframe>"""
+    except:
+        print """<h1>Error Occurred. Check syntax?</p>"""
+else: print """<h1>Put in some text...?</p>"""
 
-"""if text:
-    lines = text.split('\n')
-    shorthand_bb.convert(lines)
-    f = open('bbify.txt')
-    for line in f:
-        print line
-        #print "<br />"
-"""
 
 print "<br /><br /></pre></div></body>"

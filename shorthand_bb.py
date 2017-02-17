@@ -65,9 +65,18 @@ def color(lookahead):
         return 1, tag
 
 def slash(lookahead):
-    return 2, ""
+    if lookahead == 'c':
+        if not switches['\c']:
+            tag="[center]".format(colors[lookahead])
+            switches['\c'] = not switches['\c']
+            return 2, tag
+        else:
+            tag='[/center]'
+            switches['\c'] = not switches['\c']
+            return 2, tag
+    return 2 if lookahead != '\\' else 3, ""
 
-switches = {'*':0, '_':0, '^':0, '#':0, '\\':0}
+switches = {'*':0, '_':0, '^':0, '#':0, '\\':0, '\c':0}
 flips = {'*':bold, '_':underline, '^':italic, '#':color, '\\':slash}
 colors = {'c':'#79ab66', 's':'#ffb90f', 'a':'#047800', 'v':'#ee5d5d', 'w':'white'}
 ignore = ["\"", "."]
@@ -107,6 +116,7 @@ def convert(lines):
 
         f.write('\n')
     f.close()
+    return 0
 
 if __name__ == "__main__":
     lines = loadText()
