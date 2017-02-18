@@ -16,7 +16,7 @@ print """
 <div style="margin: auto; width: 60%;text-align:center">
 <h1 style="color:white;">BBcode from Custom Markdown<h1>
 
-<textarea wrap="hard" form="input" name="text" rows="15" cols="80"
+<textarea wrap="soft" form="input" name="text" rows="15" cols="80"
 placeholder="Template:
 *bold text*
 _underlined text_

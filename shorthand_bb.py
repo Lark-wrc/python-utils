@@ -56,11 +56,11 @@ def italic(lookahead):
 def color(lookahead):
     global tag
     if not switches['#']:
-        tag="[color={}]".format(colors[lookahead])
+        tag="\"[color={}]".format(colors[lookahead])
         switches['#'] = not switches['#']
         return 2, tag
     else:
-        tag='[/color]'
+        tag='[/color]"'
         switches['#'] = not switches['#']
         return 1, tag
 
