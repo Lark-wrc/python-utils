@@ -2,19 +2,40 @@ import sys
 import re
 
 
-class Flag:
-    flag = 0
+class DumbSwitch:
 
-
-class Instance:
     def __init__(self):
         self.flag = 0
 
-subs = {'*':'i', '**':'b', '_':'u', '&':'color', '&&c':'center',
+    def switch(self):
+        pass
+
+
+class Flag:
+    flag = 0
+
+    def __init__(self):
+        pass
+
+    def switch(self):
+        self.flag = 0 if self.flag else 1
+
+
+class Instance(DumbSwitch):
+    def __init__(self):
+        self.flag = 0
+
+    def switch(self):
+        self.flag = 0 if self.flag else 1
+
+
+subs = {'*':'i', '**':'b', '_':'u', '&':'color', '&&c':'center', '---':'hr',
         '&c':'color=#79ab66', '&s':'color=#ffb90f', '&r': 'color=#9a5821',
         '&a':'color=#047800', '&v':'color=#ee5d5d', '&w':'color=white'}
+
 color_flag = Flag()
 state = {code: color_flag if 'color' in code else Instance() for code in subs.values()}
+state['hr'] = DumbSwitch()
 
 
 def loadText():
@@ -44,10 +65,10 @@ def convert(lines):
 def replace(markdown):
     code = subs[markdown]
     if state[code].flag:
-        state[code].flag = 0
+        state[code].switch()
         return '[/'+code+']' if 'color' not in code else '[/'+code+']"'
     else:
-        state[code].flag = 1
+        state[code].switch()
         return '['+code+']' if 'color' not in code else '"['+code+']'
 
 if __name__ == "__main__":
