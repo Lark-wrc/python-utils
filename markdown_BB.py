@@ -60,6 +60,7 @@ def convert(lines):
                     line = re.sub(re.escape(markdown), replace(markdown), line, count=1)
         writer.write(line)
         writer.write('\n')
+    return 0
 
 
 def replace(markdown):
