@@ -17,7 +17,8 @@ def leadword(word):
     cursor = 0
     while word[cursor] in ignore: cursor+=1
     while word is not "" and word[cursor] in switches:
-        trim, tag = flips[word[cursor]](word[cursor+1] if len(word) > 1 else 'Nil')
+        trim, tag = flips[word[cursor]](word[cursor+1] if len(word) > 1
+else 'Nil')
         if tag: tags+=tag
         word = word[:cursor] + word[trim+cursor:]
     return word, tags
@@ -78,7 +79,8 @@ def slash(lookahead):
 
 switches = {'*':0, '_':0, '^':0, '#':0, '\\':0, '\c':0}
 flips = {'*':bold, '_':underline, '^':italic, '#':color, '\\':slash}
-colors = {'c':'#79ab66', 's':'#ffb90f', 'a':'#047800', 'v':'#ee5d5d', 'w':'white'}
+colors = {'c':'#79ab66', 's':'#ffb90f', 'a':'#047800', 'v':'#ee5d5d',
+'w':'white','r':'#9a5821'}
 ignore = ["\"", "."]
 
 def loadText():

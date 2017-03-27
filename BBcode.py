@@ -2,6 +2,7 @@
 
 import cgi
 import shorthand_bb
+import markdown_BB
 
 form = cgi.FieldStorage()
 
@@ -42,7 +43,8 @@ _underlined text_
 
 </div>
 
-<div style="background-color:lightgrey;margin: auto; width: 50%;text-align:center;">
+<div style="background-color:lightgrey;margin: auto; width:
+50%;text-align:center;">
 <a href="bbify.txt">Text file source</a><pre>"""
 
 
@@ -50,8 +52,9 @@ if text:
     lines = text.split("\r\n")
     #print lines
     try:
-        exit = shorthand_bb.convert(lines)
-        if exit == 0: print """<iframe src="bbify.txt" width="400px" height="470px"></iframe>"""
+        exit = markdown_BB.convert(lines)
+        if exit == 0: print """<iframe src="bbify.txt" width="400px"
+height="470px"></iframe>"""
     except:
         print """<h1>Error Occurred. Check syntax?</p>"""
 else: print """<h1>Put in some text...?</p>"""
