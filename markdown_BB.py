@@ -4,21 +4,11 @@ import re
 
 class DumbSwitch:
 
-    def __init__(self):
-        self.flag = 0
+    def __init__(self, flag=0):
+        self.flag = flag
 
     def switch(self):
         pass
-
-
-class Flag:
-    flag = 0
-
-    def __init__(self):
-        pass
-
-    def switch(self):
-        self.flag = 0 if self.flag else 1
 
 
 class Instance(DumbSwitch):
@@ -31,11 +21,12 @@ class Instance(DumbSwitch):
 
 subs = {'*':'i', '**':'b', '_':'u', '&':'color', '&&c':'center', '---':'hr',
         '&c':'color=#79ab66', '&s':'color=#ffb90f', '&r': 'color=#9a5821',
-        '&a':'color=#047800', '&v':'color=#ee5d5d', '&w':'color=white'}
+        '&a':'color=#047800', '&v':'color=#ee5d5d', '&w':'color=white',
+        '&b':'color=#EC5800', '&p':'color=#D464E4', '&n':'color=#8E44AD', '&u':'color=#FBF9AB'}
 
-color_flag = Flag()
-state = {code: color_flag if 'color' in code else Instance() for code in subs.values()}
+state = {code: Instance() if 'color' not in code else DumbSwitch() for code in subs.values()}
 state['hr'] = DumbSwitch()
+state['color'] = DumbSwitch(1)
 
 
 def loadText():

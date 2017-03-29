@@ -19,20 +19,14 @@ print """
 
 <textarea wrap="soft" form="input" name="text" rows="15" cols="80"
 placeholder="Template:
-*bold text*
-_underlined text_
-^italic text^
-*^_this can be combined, though keep them in order_^*
-\c centers \c <- note that the \\c should be on it's own!
-- on it's own line prints a [hr] tag
-#sPrints Sona's text color.# <- note that it's only a single \# to close!
-#cPrints Sherwood,# #aPrints ASPN,# #vPrints VLPS,# and #wPrints white#
-    indents with tabs
-        are
-    preserved.
-            useful for
-    1. lists
-    2. more lists
+How to do things:
+**Bold**
+_underline_
+*italics*
+&&c centered &&c
+--- Horizontal rule
+&_ Colored text& Where _ is one of these letters:
+c,s,r,v,a,w & b, p, u, n
 "></textarea>
 
 <br /><br />
