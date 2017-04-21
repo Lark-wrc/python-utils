@@ -27,3 +27,7 @@ Exactly what it says on the tin. Very old testing scripts I did that encode or d
 + **Encoder** can do either a ceasar cipher or entean, which is a fictional alternate alphabet.
 
 + **Decoder** only takes entean script and converts it back to english.
+
+## Reddit Responder
+
+A utility that was supposed to give actual timely email notifications about comment reply on reddit. Was for a play by post that quickly died out. Reddit is a horrible place to host a play by post game. Script sort of works, but testing was challenging and eventually not worth it when the game died.
