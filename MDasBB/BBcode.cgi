@@ -1,8 +1,7 @@
 #! /usr/bin/python
 
 import cgi
-import shorthand_bb
-import markdown_BB
+import regex_scan
 
 form = cgi.FieldStorage()
 
@@ -30,8 +29,7 @@ $m center the rest of the line
 --- Horizontal rule
 $_ Colored text$ Where _ is one of these letters:
 c,s,r,v,a,w & b, p, u, n
-You can also close a color with the $_ as well. 
-The ambiguous $ ending must be followed by space. $ctext$more won't work. '
+The ambiguous $ ending must be followed by space. $ctext$more won't work.
 "></textarea>
 
 <br /><br />
@@ -51,7 +49,7 @@ if text:
     lines = text.split("\r\n")
     #print lines
     try:
-        exit = markdown_BB.convert(lines)
+        exit = regex_scan.convert(lines)
         if exit == 0: print """<iframe src="bbify.txt" width="400px"
 height="470px"></iframe>"""
     except:
