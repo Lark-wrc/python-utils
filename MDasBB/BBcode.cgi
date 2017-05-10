@@ -48,7 +48,7 @@ The ambiguous $ ending must be followed by space. $ctext$more won't work.
 if text:
     lines = text.split("\r\n")
     for line in lines:
-        line.append('\n')
+        line+='\n'
     #print lines
     try:
         exit = regex_scan.convert(lines)
