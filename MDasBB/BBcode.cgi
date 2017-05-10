@@ -23,10 +23,15 @@ How to do things:
 **Bold**
 _underline_
 *italics*
-&&c centered &&c
+$m center the rest of the line
+> quotes the rest of the line
++ makes a bullet
+# (Up to 6 of them) A Bold, larger font heading with centering. 
 --- Horizontal rule
-&_ Colored text& Where _ is one of these letters:
+$_ Colored text$ Where _ is one of these letters:
 c,s,r,v,a,w & b, p, u, n
+You can also close a color with the $_ as well. 
+The ambiguous $ ending must be followed by space. $ctext$more won't work. '
 "></textarea>
 
 <br /><br />

@@ -1,16 +1,16 @@
 import sys
 import re
 
-class Switch():
+class Switch(object):
 
     def __nonzero__(self):
-        return self.flag
+        return self.active
 
-    def __init__(self, flag=0):
-        self.flag = flag
+    def __init__(self, active=0):
+        self.active = active
 
     def switch(self):
-        self.flag = 0 if self.flag else 1
+        self.active = 0 if self.active else 1
 
 
 class LockedSwitch(Switch):
@@ -19,7 +19,7 @@ class LockedSwitch(Switch):
         pass
 
 
-class Replaceable():
+class Replaceable(object):
 
     def __init__(self, markdown, bb, value="", switch=None):
         self.markdown = markdown
@@ -30,7 +30,7 @@ class Replaceable():
         self.length = len(markdown) - markdown.count('\\')
 
     def matched(self):
-        replacement = self._bbe if self._switch.flag else self._bbs
+        replacement = self._bbe if self._switch else self._bbs
         self._switch.switch()
         return replacement
 
@@ -42,6 +42,32 @@ class Replaceable():
 
     def len(self):
         return self.length
+
+class ReplaceableAmbiguous(Replaceable):
+    """Legacy switch for catching $_ as the close character doesn't work
+    with multiple colored blocks on the same line. 
+    """
+    def __init__(self, markdown, bb, value="", switch=None):
+        super(ReplaceableAmbiguous, self).__init__(markdown, bb, value, switch)
+        self.markdown_pre = markdown[:-1]+'(\W|\Z|[^'+ markdown[-1]+'])'
+
+    def replaceIn(self, string):
+        if self._switch:
+            # legacy = re.search(self.markdown, string)
+            # if legacy: 
+            #     return re.sub(self.markdown, self.matched(), string, count=1)
+            whitespace = re.search(self.markdown_pre, string).group(1)
+            return re.sub(self.markdown_pre, self.matched()+whitespace, string, count=1)
+        return re.sub(self.markdown, self.matched(), string, count=1)
+
+    def isIn(self, string):
+        if self._switch: 
+            # legacy =  re.search(self.markdown, string)
+            # if legacy: 
+            #     return re.search(self.markdown, string)
+            return re.search(self.markdown_pre, string)
+        return re.search(self.markdown, string)
+
 
 class ReplaceableOneMany(Replaceable):
 
@@ -64,7 +90,7 @@ class ReplaceableOneMany(Replaceable):
             self._switch.switch()
             return self.replaces[0].matched()
 
-class RepDec():
+class RepDec(object):
 
     def __init__(self, base):
         self.base = base
@@ -91,28 +117,50 @@ replacements = [
     Replaceable('\*', 'i'),
     Replaceable('\*\*', 'b'),
     Replaceable('_', 'u'),
-    Replaceable('&&c', 'center'),
+    RepDec_NewLineClose(Replaceable('\$m', 'center')),
     Replaceable('---', 'hr', switch=LockedSwitch()),
     RepDec_NewLineClose
     (
-        ReplaceableOneMany('^#{1,6} ', Switch(), 
+        ReplaceableOneMany('^#{3,6}[ ]*', Switch(), 
+            Replaceable('\$m', 'center'),
             Replaceable('', 'b'), 
             Replaceable('', 'size', '14pt')
         )
     ),
+    RepDec_NewLineClose
+    (
+        ReplaceableOneMany('^#[ ]*', Switch(), 
+            Replaceable('\$m', 'center'),
+            Replaceable('', 'b'), 
+            Replaceable('', 'u'),
+            ReplaceableAmbiguous('\$w', 'color', 'white'),
+            Replaceable('', 'size', '18pt')
+        )
+    ),
+    RepDec_NewLineClose
+    (
+        ReplaceableOneMany('^##[ ]*', Switch(), 
+            Replaceable('\$m', 'center'),
+            Replaceable('', 'b'), 
+            Replaceable('', 'u'),
+            Replaceable('', 'size', '16pt')
+        )
+    ),
+    RepDec_NewLineClose(Replaceable('^> ', 'quote')),
+    RepDec_NewLineClose(Replaceable('^\+ ', 'li')),
 
-    Replaceable('&c', 'color', '#79ab66'),
-    Replaceable('&s', 'color', '#ffb90f'),
-    Replaceable('&r', 'color', '#9a5821'),
+    ReplaceableAmbiguous('\$c', 'color', '#79ab66'),
+    ReplaceableAmbiguous('\$s', 'color', '#ffb90f'),
+    ReplaceableAmbiguous('\$r', 'color', '#9a5821'),
     
-    Replaceable('&a', 'color', '#047800'),
-    Replaceable('&v', 'color', '#ee5d5d'),
-    Replaceable('&w', 'color', 'white'),
+    ReplaceableAmbiguous('\$a', 'color', '#047800'),
+    ReplaceableAmbiguous('\$v', 'color', '#ee5d5d'),
+    ReplaceableAmbiguous('\$w', 'color', 'white'),
 
-    Replaceable('&b', 'color', '#EC5800'),
-    Replaceable('&p', 'color', '#D464E4'),
-    Replaceable('&n', 'color', '#8E44AD'),
-    Replaceable('&u', 'color', '#FBF9AB')
+    ReplaceableAmbiguous('\$b', 'color', '#EC5800'),
+    ReplaceableAmbiguous('\$p', 'color', '#D464E4'),
+    ReplaceableAmbiguous('\$n', 'color', '#8E44AD'),
+    ReplaceableAmbiguous('\$u', 'color', '#FBF9AB')
 ]
 
 def loadText():
@@ -135,8 +183,9 @@ def convert(lines):
             if line != '\n':
                 while replaceable.isIn(line):
                     line = replaceable.replaceIn(line)
+                    #print repr(line)
         writer.write(line)
-        writer.write('\n')
+        #writer.write('\n')
     return 0
 
 if __name__ == "__main__":
