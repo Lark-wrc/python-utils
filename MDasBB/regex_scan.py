@@ -121,10 +121,10 @@ replacements = [
     Replaceable('---', 'hr', switch=LockedSwitch()),
     RepDec_NewLineClose
     (
-        ReplaceableOneMany('^#{3,6}[ ]*', Switch(), 
+        ReplaceableOneMany('^#{4,6}[ ]*', Switch(), 
             Replaceable('\$m', 'center'),
             Replaceable('', 'b'), 
-            Replaceable('', 'size', '14pt')
+            Replaceable('', 'size', '12pt')
         )
     ),
     RepDec_NewLineClose
@@ -144,6 +144,15 @@ replacements = [
             Replaceable('', 'b'), 
             Replaceable('', 'u'),
             Replaceable('', 'size', '16pt')
+        )
+    ),
+    RepDec_NewLineClose
+    (
+        ReplaceableOneMany('^###[ ]*', Switch(), 
+            Replaceable('\$m', 'center'),
+            Replaceable('', 'b'), 
+            Replaceable('', 'u'),
+            Replaceable('', 'size', '14pt')
         )
     ),
     RepDec_NewLineClose(Replaceable('^> ', 'quote')),
