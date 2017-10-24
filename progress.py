@@ -8,7 +8,7 @@ class Spinner():
 
     def animate(self):
         self.FRAMES = self.FRAMES[1:]+self.FRAMES[:1]
-        stdout.write('\r'+self.FRAMES[0])
+        stdout.write('\r['+self.FRAMES[0]+']')
         stdout.flush()
 
 if __name__ == "__main__":
