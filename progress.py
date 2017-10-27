@@ -1,7 +1,7 @@
 from sys import stdout
 
 """
-Version 2.0
+Version 2.1
 Source from Willowlark/python-utils repository.
 """
 
@@ -18,6 +18,7 @@ class Spinner():
     def animate(self):
         self.FRAMES = self.FRAMES[1:]+self.FRAMES[:1]
         self._write(self.FRAMES[0])
+        return 0
 
 class CounterForm(Spinner):
     # Put a spinner in it, it prints a number after every count-th animation. Shows you where 
@@ -25,13 +26,19 @@ class CounterForm(Spinner):
     def __init__(self, decorated, count=25):
         self.decorated = decorated
         self.ticks = 0
-        self.count = 25
+        self.count = count
     
     def animate(self):
         self.decorated.animate()
         self.ticks+=1
         if self.ticks%self.count == 0:
             self._write(str(self.ticks), '\n')
+            return self.ticks
+        else:
+            return 0
+
+    def reset(self):
+        self.ticks = 0
 
 if __name__ == "__main__":
     from time import sleep
