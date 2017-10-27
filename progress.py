@@ -1,5 +1,10 @@
 from sys import stdout
 
+"""
+Version 2.0
+Source from Willowlark/python-utils repository.
+"""
+
 class Spinner():
     # It spins one click every time you call animate. Budget way of showing activity is still going on.
     
@@ -15,6 +20,8 @@ class Spinner():
         self._write(self.FRAMES[0])
 
 class CounterForm(Spinner):
+    # Put a spinner in it, it prints a number after every count-th animation. Shows you where 
+    # your at rather than just an infinitely spinning progress bar.
     def __init__(self, decorated, count=25):
         self.decorated = decorated
         self.ticks = 0
