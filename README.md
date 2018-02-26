@@ -30,6 +30,6 @@ Exactly what it says on the tin. Very old testing scripts I did that encode or d
 
 + **Team Gen** doesn't actually encrypt anything. It's a permutation generator from RWBY team names, taking custom initials and spitting out team names to try. Unfortunately it can't do the work to figure out what the name can stand form. 
 
-## Reddit Responder
+## search
 
-A utility that was supposed to give actual timely email notifications about comment reply on reddit. Was for a play by post that quickly died out. Reddit is a horrible place to host a play by post game. Script sort of works, but testing was challenging and eventually not worth it when the game died.
+Contains utilities for searching things. Includes a recursive glob file system search that returns file paths relative to calling folder.
