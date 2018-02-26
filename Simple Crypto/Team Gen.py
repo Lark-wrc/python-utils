@@ -27,7 +27,7 @@ def _tails(team):
             yield x
     else:
         for y in team.pop():
-            for x in tails(team):
+            for x in _tails(team):
                 yield y+x
 
 #Prints teams with leader at index lead. Types 0 prints none, 1 Given names, 2, given and family, 3 all names. 
