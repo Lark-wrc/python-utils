@@ -33,3 +33,7 @@ Exactly what it says on the tin. Very old testing scripts I did that encode or d
 ## search
 
 Contains utilities for searching things. Includes a recursive glob file system search that returns file paths relative to calling folder.
+
+## scribe
+
+Contains an object to organize printing to the console. Allows for labeling each message with severity level and allows one to filter to only a certain level of severity printing.

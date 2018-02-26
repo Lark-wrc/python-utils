@@ -33,3 +33,10 @@
 ## File-based project format:
 *.ipr
 *.iws
+
+# Bill's workspace additions
+_*
+.vscode
+**/.DS_Store
+.idea
+Filesystem/__init__.pyc Filesystem/renamer.pyc Filesystem/subfixer.pyc
