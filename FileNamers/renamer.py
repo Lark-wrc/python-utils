@@ -13,7 +13,7 @@ elif len(sys.argv) == 3:
 		checker = False
 else:
 	print 'false'
-	exit()
+	sys.exit()
 
 #List out all of the files.
 files = os.listdir('.')
